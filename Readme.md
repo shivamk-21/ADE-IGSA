@@ -85,12 +85,14 @@ Run:
 python IGSA.py --input_dir {dataset folder} --output_dir {output_folder} --ensemble --nn --targeted
 ```
 
+If using targeted, input_dir must contain a csv with columns `filename`, `label` and `targeted_label`
 ## Flags
 
 - `--ensemble`: Enable ensemble
 - `--nn`: Enable disturbance net
 - `--targeted`: Targeted attack
 - `--save_all`: Save all perturbed images
+- `max_test_num`: Set Images to be tested
 
 ## Output
 
