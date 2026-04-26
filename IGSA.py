@@ -302,31 +302,6 @@ class RAA(object):
 		self.active_models = self.loss_models + [self.model]
 		return self.active_models
 
-	# def compute_hybrid_loss(self, x, target, active_models):
-	# 	if len(active_models) == 1:
-	# 		return self.compute_loss(active_models[0], x, target)
-
-	# 	losses = [self.compute_loss(model, x, target) for model in active_models]
-	# 	losses_stack = torch.stack(losses)
-
-	# 	# stable normalization
-	# 	mean = losses_stack.mean().detach()
-	# 	losses_stack = losses_stack / (mean + 1e-8)
-
-	# 	# soft balanced weights (KEY FIX)
-	# 	temp = 0.7
-	# 	weights = torch.softmax(losses_stack.detach() / temp, dim=0)
-
-	# 	pareto_loss = (weights * losses_stack).sum()
-	# 	sampled_loss = losses_stack.mean()
-
-	# 	base_loss = self.lambda1 * sampled_loss + self.lambda3 * pareto_loss
-
-	# 	# mild agreement encouragement
-	# 	div = torch.std(losses_stack)
-
-	# 	return base_loss - 0.05 * div
-
 	def apply_disturbance_mapping(self, x_adv, theta):
 		out = self.h_net(x_adv, theta)
 
@@ -490,7 +465,6 @@ class RAA(object):
 						]
 						losses = torch.stack(losses)
 
-						# 🔥 smooth worst-case (BEST choice)
 						temp = 5.0
 						loss = torch.logsumexp(losses * temp, dim=0) / temp
 
